@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>BlueWebTemplates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.cycle.all.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#slideshow').cycle({
+        fx:     'fade',
+        speed:  'slow',
+        timeout: 3000,
+        pager:  '#slider_nav',
+        pagerAnchorBuilder: function(idx, slide) {
+            // return sel string for existing anchor
+            return '#slider_nav li:eq(' + (idx) + ') a';
+        }
+    });
+});
+</script>
+</head>
+<body>
+<div class="main">
+  <div class="main_resize">
+    <div class="header">
+      <div class="logo"><a href="index.html"><img src="images/logo.gif" width="232" height="74" border="0" alt="logo" /></a></div>
+      <div class="clr"></div>
+      <div class="menu">
+        <ul>
+          <li><a href="index.html" class="active"><span>Home</span></a></li>
+          <li><a href="services.html"><span>Services</span></a></li>
+          <li><a href="about.html"><span>Portfolio</span></a></li>
+          <li><a href="about.html"><span> About Us </span></a></li>
+          <li><a href="contact.html"><span> Contact Us</span></a></li>
+        </ul>
+      </div>
+      <div class="click">
+        <p>Click here to live Support Tell Free 1-866-123-675</p>
+      </div>
+      <div class="clr"></div>
+    </div>
+    <div class="clr"></div>
+    <div class="slider_main">
+      <div class="leftt">
+        <h2>We'll make sure your <br />
+          website works for you...</h2>
+        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </p>
+        <a href="#"><img src="images/view_port.gif" alt="picture" width="136" height="33" border="0" /></a></div>
+      <div id="slider">
+        <!-- start slideshow -->
+        <div id="slideshow">
+          <div class="slider-item"><a href="#"><img src="images/simple_img_1.jpg" alt="icon" width="648" height="303" border="0" /></a></div>
+          <div class="slider-item"><a href="#"><img src="images/simple_img_2.jpg" alt="icon" width="648" height="303" border="0" /></a></div>
+          <div class="slider-item"><a href="#"><img src="images/simple_img_3.jpg" alt="icon" width="648" height="303" border="0" /></a></div>
+        </div>
+        <!-- end #slideshow -->
+        <div class="controls-center">
+          <h2>Your company's welcome message or slogan. </h2>
+          <p>Lorem ipsum dolor sit amet, consectur el.</p>
+          <div id="slider_controls">
+            <ul id="slider_nav">
+              <li><a href="#"></a></li>
+              <!-- Slide 1 -->
+              <li><a href="#"></a></li>
+              <!-- Slide 2 -->
+              <li><a href="#"></a></li>
+              <!-- Slide 3 -->
+            </ul>
+          </div>
+        </div>
+        <div class="clr"></div>
+      </div>
+      <div class="clr"></div>
+    </div>
+    <div class="clr"></div>
+    <div class="main_left">
+      <div class="search">
+        <form id="form1" name="form1" method="post" action="">
+          <p>Search: </p><label>
+            <span>
+            <input name="q" type="text" class="keywords" id="textfield" maxlength="50" value="" />
+            </span>
+            <input name="b" type="image" src="images/search.gif" class="button" />
+          </label>
+        </form>
+        <div class="clr"></div>
+      </div>
+      <h2>News and Events<br />
+        <span> Lorem ipsum dolor sit amet, consectetur </span> </h2>
+      <p><span>12 Dec 2015 | <a href="#">0 comments</a></span><br />
+        <strong>Duis nec porttitor lorem</strong><br />
+        Mauris et nisi urna nonfaucibus lacus magna. </p>
+      <p><span>18 Dec 2015 | <a href="#">5 comments</a></span><br />
+        <strong>Aenean interdum</strong><br />
+        Vestibulum ante ipsum primis into faucibus orci luctus ultrices antene posuere.</p>
+      <p><span>4 Jan 2015 | <a href="#">2 comments</a></span><br />
+        <strong>Integer vitae nisl</strong><br />
+        Duis volutpat ligula laoreet orci lectus placerat <br />
+        Curabitur lectus malesuada pulvinar.</p>
+      <p><a href="#">More News »</a><br />
+      </p>
+      <h2>&nbsp;</h2>
+      <h2>What They Say<br />
+        <span>Lorem ipsum dolor sit amet, consectetur</span> </h2>
+      <img src="images/test.gif" alt="picture" width="18" height="17" class="floated" />
+      <p>&quot;Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse voluptas nulla pariatur?&quot;</p>
+      <p><em><strong>by: John S., webdesigner</strong></em></p>
+    </div>
+    <div class="main_right">
+      <div class="clr"></div>
+      <div class="right_text">
+        <p><strong>Latest News:</strong> Dipisicing elit, sed do eiusmod tempor incididunt ut labore et?</p>
+      </div>
+      <div class="clr"></div>
+      <h2>Welcome to Our Website<br />
+        <span> Ut enim ad minim veniam, quis nostrud exercitation </span> </h2>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium mque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      <p>&nbsp;</p>
+      <h2>Featured Works<br />
+        <span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </span> </h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip exea</p>
+      <img src="images/img_1.jpg" alt="picture" width="168" height="75" class="floated" />
+      <p><a href="#"><strong>Webname</strong></a><br />
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis </p>
+      <p><a href="#">Read More »</a></p>
+      <div class="bg"></div>
+      <img src="images/img_2.jpg" alt="picture" width="168" height="75" class="floated" />
+      <p><a href="#"><strong>Optimal Design</strong></a><br />
+        Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
+      <p><a href="#">Read More »</a></p>
+      <div class="bg"></div>
+      <img src="images/img_3.jpg" alt="picture" width="168" height="75" class="floated" />
+      <p><a href="#"><strong>Power Design</strong></a><br />
+        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. </p>
+      <p><a href="#">Read More »</a></p>
+      <p>&nbsp;</p>
+    </div>
+    <div class="clr"></div>
+  </div>
+  <div class="footer">
+    <div class="footer_resize">
+      <p class="leftt">© Copyright websitename . All Rights Reserved. <a href="#"> Home</a> | <a href="#">Contact</a> | <a href="#">RSS </a></p>
+      <p class="right">(Blue) <a href="http://www.bluewebtemplates.com">Website Templates</a></p>
+      <div class="clr"></div>
+    </div>
+    <div class="clr"></div>
+  </div>
+</div>
+</body>
+</html>
