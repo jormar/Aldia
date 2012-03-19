@@ -287,7 +287,7 @@ CREATE  TABLE IF NOT EXISTS `aldia`.`aldia_historico` (
   `hist_id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
   `hist_texto` LONGTEXT NOT NULL ,
   `hist_type` VARCHAR(15) NOT NULL COMMENT 'Correccion, Observacion, Nota, Noticia' ,
-  `hist_created` DATE NOT NULL ,
+  `hist_created` DATETIME NOT NULL ,
   `aldia_proyecto_proy_id` BIGINT(20) NOT NULL ,
   `aldia_usuarios_user_id` BIGINT(20) NOT NULL ,
   PRIMARY KEY (`hist_id`) ,
