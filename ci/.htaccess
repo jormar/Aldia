@@ -4,7 +4,12 @@
     RewriteRule ^index\.php$ - [L]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond $1 !^(index\.php|images|robots\.txt)
     RewriteRule . /ci/index.php [L]
+
+#reglas para utilizar uploadify 
+    RewriteRule ^uploadify/.*$ - [PT]
+    RewriteRule ^uploads/.*$ - [PT]
 </IfModule>
 
 Options -Indexes
