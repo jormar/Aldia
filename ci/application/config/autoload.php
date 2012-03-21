@@ -111,7 +111,7 @@ $autoload['language'] = array();
 
 $autoload['model'] = array('usuario_db', 'proyecto_db', 'comunidad_db',
     'usuario_participa_db', 'organizacion_db', 'actividad_db',
-    'inversion_db');
+    'inversion_db', 'historial_db');
 
 
 /* End of file autoload.php */

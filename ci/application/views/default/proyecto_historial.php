@@ -1,120 +1,169 @@
 <?php get_header() ?>
-    <?php Message::print_all_messages() ?>
-    <h3 class=""><?php echo $PROYECTO->proy_titulo ?></h3>
 
-    <?php get_sidebar('proyecto_menu') ?>
+<script type="text/javascript" src="<?php echo site_url('uploadify/jquery.uploadify.v2.1.4.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('uploadify/swfobject.js'); ?>"></script>
+<link href="<?php echo site_url('uploadify/uploadify.css'); ?>" type="text/css" rel="stylesheet" />
+<script type="text/javascript">
+    archivos_a_eliminar = new Array();
     
-    <table class="list-table" cellspacing="0">
-    <thead>
-        <tr>
-            <th scope="col" class="" ><span>Actividad</span></th>
-            <th scope="col" class="" ><span>Responsables</span></th>
-            <th scope="col" class="" ><span>Fecha de inicio</span></th>
-            <th scope="col" class="" ><span>Fecha de finalizaci&oacute;n</span></th>
-            <th scope="col" class="" ><span>Acciones</span></th>
-        </tr>
-    </thead>
+    function yourfunction_editar(event) {
+        var nombre_archivo = $(this).siblings('img').attr('name');
+        var padre = $(this).parent();
+        var current =  padre.attr('current');
+        $("#info_msg"+current).text("Archivo marcado para ser eliminado");
+        $("#info_msg"+current).fadeIn('fast');
+        $("#info_msg"+current).fadeOut('slow');
 
-    <tfoot>
-        <tr>
-            <th scope="col" class="" colspan="5" ></th>
-        </tr>
-    </tfoot>
+        padre.fadeOut('slow');
+        archivos_a_eliminar.push(nombre_archivo);
+    }
+        
+    $(document).ready(function(){
 
-    <tbody id="the-list">
-        <?php foreach($ACTIVIDADES as $actividad) { ?>
-        <tr id="act-<?php echo $actividad->act_id ?>" class="" valign="top">
-            <td class="act_desc"><?php echo $actividad->act_desc ?></td>
-            <td class="act_responsables" width="120"><?php echo $actividad->act_responsables ?></td>
-            <td class="act_inicio" width="100"><?php if($actividad->act_inicio) echo date('d M, Y', strtotime($actividad->act_inicio) ); else echo '-'; ?></td>
-            <td class="act_fin" width="100"><?php if($actividad->act_fin) echo date('d M, Y', strtotime($actividad->act_fin) ); else echo '-'; ?></td>
-            <td class="" width="150">
-                <a id="a-act-<?php echo $actividad->act_id ?>" class="a_editar_actividad" title="Editar Actividad" href="<?php echo site_url('proyecto/editar_actividad/'.$PROYECTO->proy_id.'/'.$actividad->act_id) ?>">Editar</a>
-                - <a class="a_eliminar_actividad" title="Eliminar Actividad" href="<?php echo site_url('proyecto/eliminar_actividad/'.$PROYECTO->proy_id.'/'.$actividad->act_id) ?>">Eliminar</a>
-            </td>
-        </tr>
-        <?php } ?>
-    </tbody>
-    </table>
+        /*este remove es para evitar un bug del uploadify que hace 
+         *cargar el flash 2 veces si hubo una violacion de alguna regla de
+         *los formularios body.removeChild('uploader');*/
+        
 
-    <br />
-    <br />
+    });
+   
 
-     <div class="submit">
-         <button id="a_crear_actividad"> + Agregar Actividad</button>
-    </div>
+</script> 
 
-    <!-- Formulario de actividades -->
-    <?php
-        global $current_actividad;
-        foreach($ACTIVIDADES as $actividad) {
-            $current_actividad = $actividad;
+
+<h3 class=""><?php echo $PROYECTO->proy_titulo ?></h3>
+
+<?php get_sidebar('proyecto_menu') ?>
+
+<?php Message::print_all_messages() ?>
+
+<p class="top-info">
+    Este es el historial del proyecto.<br>
+    Aqu&iacute; observar&aacute; todas las correcciones, observaciones, noticias  notas que ocurran durante la vida del proyecto.
+</p>
+
+<div class="submit">
+    <button id="a_crear_historial"> + Agregar nueva nota</button>
+</div>
+
+<?php foreach ($HISTORIALES as $historial) { ?>
+    <div class="triangle-border">
+        <?php echo $historial->hist_texto ?><br>
+        <?php echo $historial->hist_type ?><br>
+        <?php echo $historial->hist_created ?><br>
+        <?php
+        /* se obtienen los datos del creador del historial */
+        $user = new Usuario_db();
+        $user->user_id = $historial->aldia_usuarios_user_id;
+        $usuario = $user->get();
+        echo $usuario->user_nombre;
+        echo $usuario->user_apellido;
+        /* se obtiene su rol */
+        $user_p = new usuario_participa_db();
+        $user_p->user_id = $usuario->user_id;
+        $user_p->proy_id = $PROYECTO->proy_id;
+        $participa = $user_p->get();
+        echo $participa->rol;
         ?>
-    <div id="editar_actividad-a-act-<?php echo $actividad->act_id ?>" style="display:none" class="popup">
-        <?php get_sidebar('actividad_editar') ?>
+        <a id = "a-his-<?php echo $historial->hist_id ?>" class = "a_editar_historial" title = "Editar historial" href = "<?php echo site_url('proyecto/editar_historial/' . $PROYECTO->proy_id . '/' . $historial->hist_id) ?>">Editar</a>
+        - <a class = "a_eliminar_historial" title = "Eliminar historal" href = "<?php echo site_url('proyecto/eliminar_historial/' . $PROYECTO->proy_id . '/' . $historial->hist_id) ?>">Eliminar</a >
+        <div id ="imagenes">
+            <?php
+            $archivos = glob($this->_directoriosubidaarchivos . "archivos_historial/" . $historial->hist_id . "_*");
+            foreach ($archivos as $archivo) {
+                $nombre_archivo = basename($archivo);
+                echo '<img src=http://' . $_SERVER['SERVER_NAME'] . $rutaCarpetaSubidas . 'archivos_historial/' . $nombre_archivo . ' height="50" width="50"> ';
+            }
+            ?>
+        </div>
     </div>
-    <?php } ?>
+<?php } ?>
+<!-- Formulario de historiales -->
 
-    <div id="nueva_actividad" style="display:none" class="popup">
-        <?php get_sidebar('actividad_crear') ?>
+<?php
+global $current_historial;
+foreach ($HISTORIALES as $historial) {
+    $current_historial = $historial;
+    ?>
+    <div id="editar_historial-a-his-<?php echo $historial->hist_id ?>" style="display:none" class="popup">
+        <?php get_sidebar('historial_editar') ?>
     </div>
+<?php } ?>
 
-    <div id="eliminar_actividad" style="display:none" class="popup">
-        <p class="text">
-            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-            &iquest;Seguro que desea eliminar esta actividad?
-        </p>
-    </div>
+<div id="nuevo_historial" style="display:none" class="popup">
+    <?php get_sidebar('historial_crear') ?>
+</div>
 
-    <script>
-	jQuery(function() {
+
+<div id="eliminar_historial" style="display:none" class="popup">
+    <p class="text">
+        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+        &iquest;Seguro que desea eliminar este registro?
+    </p>
+</div>
+
+<script>
+
+    jQuery(function() {
         // Botones
-		jQuery( "input:submit, button").button();
-		jQuery('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
+        jQuery( "input:submit, button").button();
+        jQuery('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
 
-        $('#a_crear_actividad').click(function() {
-            jQuery('#actividad_crear_form').each(function(){
+        $('#a_crear_historial').click(function() {
+            jQuery('#historial_crear_form').each(function(){
                 this.reset();
             });
             jQuery('.error').removeClass('error');
-            return mostrarDialogoModal('#nueva_actividad', 'Agregar Actividad', '#actividad_crear_form');
+            return mostrarDialogoModal('#nuevo_historial', 'Agregar historial', '#historial_crear_form');
         });
 
-        jQuery('a.a_eliminar_actividad').click(function() {
-            return mostrarDialogoModal_link('#eliminar_actividad', 'Eliminar Actividad', this);
+        jQuery('a.a_eliminar_historial').click(function() {
+            return mostrarDialogoModal_link('#eliminar_historial', 'Eliminar Registro', this);
         });
-        jQuery('a.a_editar_actividad').click(function() {
-            return mostrarDialogoModal('#editar_actividad-'+jQuery(this).attr('id'), 'Editar Actividad', '#actividad_editar_form-'+jQuery(this).attr('id'));
+        jQuery('a.a_editar_historial').click(function() {
+            return mostrarDialogoModal('#editar_historial-'+jQuery(this).attr('id'), 'Editar historial', '#historial_editar_form-'+jQuery(this).attr('id'));
         });
 
 <?php
-if ( validation_errors() ) {
-    if ($this->input->post('submit-act-crear')) {
-?>
-        mostrarDialogoModal('#nueva_actividad', 'Agregar Actividad', '#actividad_crear_form');
-<?php
-    } elseif ($this->input->post('submit-act-editar')) {
-?>
-        mostrarDialogoModal('#editar_actividad-a-act-<?php echo $this->input->post('act_id') ?>', 'Agregar Actividad', '#actividad_crear_form');
-<?php        
+if (validation_errors()) {
+    if ($this->input->post('submit-his-crear')) {
+        ?>
+                        mostrarDialogoModal('#nuevo_historial', 'Agregar historial', '#historial_crear_form');
+        <?php
+    } elseif ($this->input->post('submit-his-editar')) {
+        ?>
+                        mostrarDialogoModal('#editar_historial-a-his-<?php echo $this->input->post('hist_id') ?>', 'Editar historial', '#historial_editar_form-a-his-'+<?php echo $this->input->post('hist_id'); ?>);
+        <?php
     }
 }
 ?>
 
-	});
+    });
     function mostrarDialogoModal( box, title, form ) {
         $( box ).dialog({
             resizable: false,
+            closeOnEscape: false,
             modal: true,
             draggable: false,
             position: ['center', 100],
             title: title,
             width: 400,
+            beforeClose: function() { 
+                location.reload();
+            },
             buttons: {
                 Cancel: function() {
                     $( this ).dialog( "close" );
                 },
-                "Guardar Actividad": function() {
+                "Guardar historial": function() {
+                    var nombre = jQuery(form).attr("id").substring(0, 16);
+                    if (nombre =="historial_editar")
+                    {
+                        var data = {};
+                        data.archivos = archivos_a_eliminar;
+                        $.post("<?php echo site_url(); ?>proyecto/eliminar_archivo/a/b", data ,function(data_s) {
+                        });
+                    }//fin del if
                     jQuery(form).submit();
                 }
             }
@@ -134,13 +183,14 @@ if ( validation_errors() ) {
                 Cancel: function() {
                     $( this ).dialog( "close" );
                 },
-                "Eliminar Actividad": function() {
+                "Eliminar historial": function() {
                     window.location = link.href;
                 }
             }
         });
         return false;
     }
-	</script>
 
+    
+</script>
 <?php get_footer() ?>
