@@ -1,6 +1,6 @@
 <div class="menu m2">
     <ul>
-        <?php if ( currentuser_can('proy_modif_histoTTT', $PROYECTO) ) { ?>
+        <?php if ( currentuser_can('proy_modif_histo', $PROYECTO) ) { ?>
         <li><a href="<?php echo base_url('proyecto/historial/'. $PROYECTO->proy_id) ?>" class="<?php if(preg_match('/historial/', current_url())) echo 'active' ?>" ><span>Historial</span></a></li>
         <?php } ?>
 
