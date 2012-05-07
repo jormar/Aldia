@@ -1,4 +1,74 @@
 <?php get_header() ?>
+
+<script>
+
+//defino variable con los mapas codificados en JSON
+<?php
+echo "var mapas =".$JSON;
+?>;
+
+
+function initialize() {
+  var myOptions = {
+    zoom: 8,
+    center: new google.maps.LatLng(-34.397, 150.644),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+  var marker_array = [];
+	if(mapas){
+		var marker_loc;
+		$.each(mapas,function(index,mapa){
+			
+			 var lat = parseFloat(mapa.map_lat);
+			 var lang = parseFloat(mapa.map_lang);
+			 marker_loc = new google.maps.LatLng(lat,lang);
+			 var load_marker = new google.maps.Marker({
+  	  			 position: marker_loc,
+		  	 	 map: map 
+ 			 });
+
+			var load_info = new google.maps.InfoWindow({ 	 
+		    	  content: mapa.map_desc,
+      		  	size: new google.maps.Size(50,50)
+			});
+
+
+			//Click Handler del marker cargado para desplegar la informacion
+     		google.maps.event.addListener(load_marker, 'click', function() {
+		   
+		  		 load_info.open(map,load_marker);
+
+		   	 });
+
+			 marker_array.push(load_marker);
+			
+			}
+
+		);
+
+		map.setCenter(marker_loc);
+
+
+
+	}
+
+
+
+   
+}
+
+function loadScript() {
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyCqbQIBVYn7OMpzQC9YiTHTOpHsGx30XRU&sensor=true&callback=initialize";
+  document.body.appendChild(script);
+}
+
+window.onload = loadScript;
+
+</script>
+
     <?php Message::print_all_messages() ?>
     <h3 class=""><?php echo $PROYECTO->proy_titulo ?></h3>
 
@@ -31,6 +101,8 @@
             <td class="" width="150">
                 <a id="a-act-<?php echo $actividad->act_id ?>" class="a_editar_actividad" title="Editar Actividad" href="<?php echo site_url('proyecto/editar_actividad/'.$PROYECTO->proy_id.'/'.$actividad->act_id) ?>">Editar</a>
                 - <a class="a_eliminar_actividad" title="Eliminar Actividad" href="<?php echo site_url('proyecto/eliminar_actividad/'.$PROYECTO->proy_id.'/'.$actividad->act_id) ?>">Eliminar</a>
+				- <a class="a_ver_mapa" title="Ver Mapa" href="<?php echo site_url('proyecto/mapas/'.$actividad->act_id) ?>">Mapa</a>
+
             </td>
         </tr>
         <?php } ?>
@@ -43,6 +115,10 @@
      <div class="submit">
          <button id="a_crear_actividad"> + Agregar Actividad</button>
     </div>
+
+	<br>
+	<h2>Mapa de actividades</h2>
+	<div id="map_canvas" style="width:100%; height:300px"></div>
 
     <!-- Formulario de actividades -->
     <?php
@@ -65,6 +141,9 @@
             &iquest;Seguro que desea eliminar esta actividad?
         </p>
     </div>
+	
+	
+
 
     <script>
 	jQuery(function() {
@@ -143,4 +222,5 @@ if ( validation_errors() ) {
     }
 	</script>
 
+	
 <?php get_footer() ?>
