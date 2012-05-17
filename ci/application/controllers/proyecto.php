@@ -60,8 +60,22 @@ class Proyecto extends ALDIA_Controller {
             $this->form_validation->set_rules('proy_obj_esp', 'Objetivo Espec&iacute;fico', '');
             $this->form_validation->set_rules('proy_cobertura_geo', 'Cobertura Geogr&aacute;fica', '');
             $this->form_validation->set_rules('proy_benef', 'Beneficiarios', '');
-            $this->form_validation->set_rules('proy_fam_benf_direc', 'Beneficiarios', 'numeric');
-            $this->form_validation->set_rules('proy_fam_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_jov_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_adult_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_ter_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_jov_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_adult_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_ter_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_jov_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_adult_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_ter_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_jov_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_adult_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_ter_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_map_zoom', 'Mapa', 'numeric|required');
+            $this->form_validation->set_rules('proy_map_lat', 'en el mapa', 'numeric|required');
+            $this->form_validation->set_rules('proy_map_long', 'en el mapa', 'numeric|required');
+
             $this->form_validation->set_rules('proy_resultado', 'Resultados esperados', '');
             $this->form_validation->set_rules('proy_impacto', 'Impacto esperado', '');
             $this->form_validation->set_rules('proy_fecha_culm', 'Impacto esperado', 'callback__valid_dateformat');
@@ -76,11 +90,24 @@ class Proyecto extends ALDIA_Controller {
                 $this->proyecto_db->proy_obj_esp = set_value('proy_obj_esp');
                 $this->proyecto_db->proy_cobertura_geo = set_value('proy_cobertura_geo');
                 $this->proyecto_db->proy_benef = set_value('proy_benef');
-                $this->proyecto_db->proy_fam_benf_direc = set_value('proy_fam_benf_direc');
-                $this->proyecto_db->proy_fam_benf_indirec = set_value('proy_fam_benf_indirec');
+                $this->proyecto_db->proy_hom_jov_benf_direc = set_value('proy_hom_jov_benf_direc');
+                $this->proyecto_db->proy_hom_adult_benf_direc = set_value('proy_hom_adult_benf_direc');
+                $this->proyecto_db->proy_hom_ter_benf_direc = set_value('proy_hom_ter_benf_direc');
+                $this->proyecto_db->proy_muj_jov_benf_direc = set_value('proy_muj_jov_benf_direc');
+                $this->proyecto_db->proy_muj_adult_benf_direc = set_value('proy_muj_adult_benf_direc');
+                $this->proyecto_db->proy_muj_ter_benf_direc = set_value('proy_muj_ter_benf_direc');
+                $this->proyecto_db->proy_hom_jov_benf_indirec = set_value('proy_hom_jov_benf_indirec');
+                $this->proyecto_db->proy_hom_adult_benf_indirec = set_value('proy_hom_adult_benf_indirec');
+                $this->proyecto_db->proy_hom_ter_benf_indirec = set_value('proy_hom_ter_benf_indirec');
+                $this->proyecto_db->proy_muj_jov_benf_indirec = set_value('proy_muj_jov_benf_indirec');
+                $this->proyecto_db->proy_muj_adult_benf_indirec = set_value('proy_muj_adult_benf_indirec');
+                $this->proyecto_db->proy_muj_ter_benf_indirec = set_value('proy_muj_ter_benf_indirec');
                 $this->proyecto_db->proy_resultado = set_value('proy_resultado');
                 $this->proyecto_db->proy_impacto = set_value('proy_impacto');
                 $this->proyecto_db->proy_fecha_culm = set_value('proy_fecha_culm');
+	        $this->proyecto_db->proy_map_zoom = set_value('proy_map_zoom');
+	        $this->proyecto_db->proy_map_lat = set_value('proy_map_lat');
+	        $this->proyecto_db->proy_map_long = set_value('proy_map_long');
 
                 $this->proyecto_db->proy_fecha_mod = date('Y-m-d H:i:s');
                 $this->proyecto_db->proy_com_id = $current_user->user_com_id;
@@ -166,11 +193,24 @@ class Proyecto extends ALDIA_Controller {
             $this->form_validation->set_rules('proy_obj_esp', 'Objetivo Espec&iacute;fico', '');
             $this->form_validation->set_rules('proy_cobertura_geo', 'Cobertura Geogr&aacute;fica', '');
             $this->form_validation->set_rules('proy_benef', 'Beneficiarios', '');
-            $this->form_validation->set_rules('proy_fam_benf_direc', 'Beneficiarios', 'numeric');
-            $this->form_validation->set_rules('proy_fam_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_jov_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_adult_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_ter_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_jov_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_adult_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_ter_benf_direc', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_jov_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_adult_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_hom_ter_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_jov_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_adult_benf_indirec', 'Beneficiarios', 'numeric');
+            $this->form_validation->set_rules('proy_muj_ter_benf_indirec', 'Beneficiarios', 'numeric');
             $this->form_validation->set_rules('proy_resultado', 'Resultados esperados', '');
             $this->form_validation->set_rules('proy_impacto', 'Impacto esperado', '');
             $this->form_validation->set_rules('proy_fecha_culm', 'Impacto esperado', 'callback__valid_dateformat');
+            $this->form_validation->set_rules('proy_map_zoom', 'Mapa', 'numeric|required');
+            $this->form_validation->set_rules('proy_map_lat', 'en el mapa', 'numeric|required');
+            $this->form_validation->set_rules('proy_map_long', 'en el mapa', 'numeric|required');
 
             if ($this->form_validation->run() == TRUE) {
                 $this->proyecto_db->clear();
@@ -182,11 +222,25 @@ class Proyecto extends ALDIA_Controller {
                 $this->proyecto_db->proy_obj_esp = set_value('proy_obj_esp');
                 $this->proyecto_db->proy_cobertura_geo = set_value('proy_cobertura_geo');
                 $this->proyecto_db->proy_benef = set_value('proy_benef');
-                $this->proyecto_db->proy_fam_benf_direc = set_value('proy_fam_benf_direc');
-                $this->proyecto_db->proy_fam_benf_indirec = set_value('proy_fam_benf_indirec');
+                $this->proyecto_db->proy_hom_jov_benf_direc = set_value('proy_hom_jov_benf_direc');
+                $this->proyecto_db->proy_hom_adult_benf_direc = set_value('proy_hom_adult_benf_direc');
+                $this->proyecto_db->proy_hom_ter_benf_direc = set_value('proy_hom_ter_benf_direc');
+                $this->proyecto_db->proy_muj_jov_benf_direc = set_value('proy_muj_jov_benf_direc');
+                $this->proyecto_db->proy_muj_adult_benf_direc = set_value('proy_muj_adult_benf_direc');
+                $this->proyecto_db->proy_muj_ter_benf_direc = set_value('proy_muj_ter_benf_direc');
+                $this->proyecto_db->proy_hom_jov_benf_indirec = set_value('proy_hom_jov_benf_indirec');
+                $this->proyecto_db->proy_hom_adult_benf_indirec = set_value('proy_hom_adult_benf_indirec');
+                $this->proyecto_db->proy_hom_ter_benf_indirec = set_value('proy_hom_ter_benf_indirec');
+                $this->proyecto_db->proy_muj_jov_benf_indirec = set_value('proy_muj_jov_benf_indirec');
+                $this->proyecto_db->proy_muj_adult_benf_indirec = set_value('proy_muj_adult_benf_indirec');
+                $this->proyecto_db->proy_muj_ter_benf_indirec = set_value('proy_muj_ter_benf_indirec');
                 $this->proyecto_db->proy_resultado = set_value('proy_resultado');
                 $this->proyecto_db->proy_impacto = set_value('proy_impacto');
                 $this->proyecto_db->proy_fecha_culm = set_value('proy_fecha_culm');
+	        $this->proyecto_db->proy_map_zoom = set_value('proy_map_zoom');
+	        $this->proyecto_db->proy_map_lat = set_value('proy_map_lat');
+	        $this->proyecto_db->proy_map_long = set_value('proy_map_long');
+
 
                 // $this->proyecto_db->proy_fecha_mod = date('Y-m-d H:i:s');
 
@@ -295,98 +349,28 @@ class Proyecto extends ALDIA_Controller {
         redirect('usuario');
     }
 
-	 /*     * * * * * * * * * * * MAPAS * * * * * * * * * * * */
-	public function mapas($actividad_id =0){
-		
-		 $this->_must_authenticate_first();
-		 $this->load->model('map_db');
-		 $this->load->library('form_validation');
-		 $this->map_db->clear();
-		 $this->map_db->map_act_id = $actividad_id;
-		 $mapa = $this->map_db->get();
-		 $this->actividad_db->clear();
-		 $this->actividad_db->act_id = $actividad_id;
-		 $actividad = $this->actividad_db->get();
-		 $this->view_data['actividad'] = $actividad;
-		 $this->view_data['mapa']      = $mapa;
-		 $this->load->view('proyecto_mapas',$this->view_data);
-		}
-
-	public function editar_mapa($actividad_id = 0){
-		
-		$this->_must_authenticate_first();
-		$this->load->library('form_validation');
-		$this->load->model('map_db');
-        if ($this->input->post('submit-map-editar')) {
-            // Procesamos el formulario
-
-            $this->form_validation->set_rules('map_lat', 'Latitud', 'required|trim');
-            $this->form_validation->set_rules('map_lang', 'Longitud', 'required|trim');
-            $this->form_validation->set_rules('map_desc', 'Descripción', 'required|trim');
-		
-			 if ($this->form_validation->run() == TRUE) {
-				$this->map_db->clear();
-                $this->map_db->map_act_id = $actividad_id;
-				$this->map_db->map_lat  = set_value('map_lat');
-				$this->map_db->map_lang = set_value('map_lang');
-                if (set_value('map_desc'))
-                     $this->map_db->map_desc = set_value('map_desc');
-               
-                if (($map_id = $this->map_db->save())) {
-                    $this->session->set_flashdata('SUCCESS_MSG', 'El mapa fue editado con éxito.');
-					$this->map_db->clear();
-					$this->map_db->map_act_id = $actividad_id;
-					$this->map_db->get();
-                    redirect('proyecto/actividades/'.$this->map_db->map_proy_id);
-                    exit();
-                } else {
-                    // Error
-                    if ($this->db->_error_message()) {
-                        Message::add_error('No fue posible procesar su solicitud. Por favor, Int&eacute;ntelo m&aacute;s tarde.');
-                    } else {
-                        Message::add_warning('No se realizaron cambios.');
-                    }
-                }
-            } else {
-                
-            }
-        }
-	}	
-
     /*     * * * * * * * * * * * ACTIVIDADES * * * * * * * * * * * */
 
     public function actividades($proyecto_id = 0) {
         // $this->output->enable_profiler(TRUE);
-	//	$this->load->helper('json');
         $this->_must_authenticate_first();
         $this->load->library('form_validation');
-		$this->load->model('map_db');
+
         $this->proyecto_db->clear();
         $this->proyecto_db->proy_id = $proyecto_id;
         $proyecto = $this->proyecto_db->get();
-		if (!($proyecto)) {
-            $this->session->set_flashdata('ERROR_MSG', 'Esta mal la cosa'.$proyecto_id);
-            redirect();
-            exit();
-        }
-
-
         if (!($proyecto && currentuser_can('proy_modif_activ', $proyecto))) {
-            $this->session->set_flashdata('ERROR_MSG', 'No tiene los permisos necesarios para realizar esta acci&oacute;n'.$proyecto->proy_tipo);
+            $this->session->set_flashdata('ERROR_MSG', 'No tiene los permisos necesarios para realizar esta acci&oacute;n.');
             redirect();
             exit();
         }
 
         $this->actividad_db->act_proy_id = $proyecto->proy_id;
         $actividades = $this->actividad_db->get_array();
-		$this->map_db->map_proy_id       = $proyecto->proy_id;
-		$mapas       = $this->map_db->get_array();
+
         $this->view_data['HEADER_TITLE'] = $proyecto->proy_titulo . ' - Actividades';
         $this->view_data['PROYECTO'] = $proyecto;
         $this->view_data['ACTIVIDADES'] = $actividades;
-		$this->view_data['MAPAS'] = $mapas;
-		//$json_data = {'hola':"hola"};
-		$this->view_data['JSON']  = json_encode($mapas);
         $this->load->view('proyecto_actividades', $this->view_data);
     }
 
@@ -394,6 +378,7 @@ class Proyecto extends ALDIA_Controller {
         // $this->output->enable_profiler(TRUE);
         $this->_must_authenticate_first();
         $this->load->library('form_validation');
+
         $this->proyecto_db->proy_id = $proyecto_id;
         $proyecto = $this->proyecto_db->get();
         if (!currentuser_can('proy_modif_activ', $proyecto)) {
@@ -411,7 +396,6 @@ class Proyecto extends ALDIA_Controller {
     private function _crear_actividad_proccess($proyecto) {
 
         if ($this->input->post('submit-act-crear')) {
-			$this->load->model('map_db');
             // Procesamos el formulario
             $this->form_validation->set_rules('act_desc', 'Descripci&oacute;n', 'required|trim');
             $this->form_validation->set_rules('act_responsables', 'Responsables', 'required|trim');
@@ -419,7 +403,6 @@ class Proyecto extends ALDIA_Controller {
             $this->form_validation->set_rules('act_fin', 'Fecha de finalizaci&oacute;n', 'callback__valid_dateformat');
 
             if ($this->form_validation->run() == TRUE) {
-
                 $this->actividad_db->act_proy_id = $proyecto->proy_id;
                 $this->actividad_db->act_desc = set_value('act_desc');
                 $this->actividad_db->act_responsables = set_value('act_responsables');
@@ -428,14 +411,8 @@ class Proyecto extends ALDIA_Controller {
                 if (set_value('act_fin'))
                     $this->actividad_db->act_fin = set_value('act_fin');
                 $this->actividad_db->act_status = 'none';
+
                 if (($actividad_id = $this->actividad_db->save())) {
-				
-					$this->map_db->map_act_id = $actividad_id;
-					$this->map_db->map_lang   = -66.4293642578125;
-					$this->map_db->map_lat	  = 10.440202583805885;
-					$this->map_db->map_desc	  = "actividad";
-					$this->map_db->map_proy_id= $proyecto->proy_id;
-					$this->map_db->insert();
                     $this->session->set_flashdata('SUCCESS_MSG', 'La actividad fue creada con &eacute;xito.');
                     redirect('proyecto/actividades/' . $proyecto->proy_id);
                     exit();
@@ -515,7 +492,7 @@ class Proyecto extends ALDIA_Controller {
         // $this->output->enable_profiler(TRUE);
         $this->_must_authenticate_first();
         $this->load->library('form_validation');
-		$this->load->model('map_db');
+
         $this->proyecto_db->proy_id = $proyecto_id;
         $proyecto = $this->proyecto_db->get();
         if (!currentuser_can('proy_modif_activ', $proyecto)) {
@@ -526,9 +503,7 @@ class Proyecto extends ALDIA_Controller {
 
         $this->actividad_db->clear();
         $this->actividad_db->act_id = $actividad_id;
-		$this->map_db->clear();
-		$this->map_db->map_act_id = $actividad_id;
-        if ($this->actividad_db->delete() && $this->map_db->delete()) {
+        if ($this->actividad_db->delete()) {
             // actualizado
             $this->session->set_flashdata('SUCCESS_MSG', 'Se elimino la actividad.');
         } else {
