@@ -1,4 +1,43 @@
 <?php get_header() ?>
+<script>
+	var map;
+	var markersArray = [];
+
+	$(document).ready(function() {
+		var latlng = new google.maps.LatLng(9.795678,-66.533203);
+		var myOptions = {
+      			zoom: 5,
+      			center: latlng,
+     			mapTypeId: google.maps.MapTypeId.ROADMAP
+    		};
+    		map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+		google.maps.event.addListener(map, 'click', function(event) {
+    			placeMarker(event.latLng);
+  		});
+	});
+
+	function placeMarker(location) {
+		if(markersArray.length != 0) {
+			markersArray[0].setMap(null);
+			markersArray = [];
+		}
+		var zoomAux = document.getElementById("proy_map_zoom");
+		var latitudAux = document.getElementById("proy_map_lat");
+		var longitudAux = document.getElementById("proy_map_long");
+
+		zoomAux.value = map.getZoom();
+		latitudAux.value = location.lat();
+		longitudAux.value = location.lng();
+
+  		var marker = new google.maps.Marker({
+      			position: location, 
+     	 		map: map
+  		});
+	
+		markersArray.push(marker);
+		map.setCenter(location);
+	}
+</script>
     <h3 class="">Proponer un proyecto nuevo</h3>
 
     <p class="top-info">
@@ -36,6 +75,11 @@
             <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
                 <label for="<?php echo $input ?>" class="id"><span class="required">*</span> Naturaleza y Justificaci&oacute;n:</label>
                 <textarea class="tinymce-edit" name="<?php echo $input ?>" id="<?php echo $input ?>" rows="3"><?php echo $this->input->post($input) ?></textarea>
+		<button type="button" id="helpBut1" onClick="mostrar('helpBut1','helpSpan1','helpP1')" style="border-style:none;color:red;background-color:#FFFFFF;cursor: help;border-style:outset;">+</button> <span id="helpSpan1"><b>Ayuda:</b> breve descripci&oacuten del proyecto y el motivo de su realizaci&oacuten</span>
+		<p id="helpP1" class="helpP1" style="text-align: justify;display:none;cursor:pointer;margin-left:16px;margin-right:14px;" onClick="mostrar('helpBut1','helpSpan1','helpP1')">
+			<b>Mencionar a quien va dirigido el proyecto (niños,adultos, deportistas, tercera edad), de que tratara (cultura, deportivo, administrativo, entre otros) y el fin de la realizaci&oacuten del proyecto<br/><br/>
+			Ejemplo: este proyecto va dirigido a la comunidad adolescente con interes deportivo ya que se construira una cancha con el fin de alejar a la juventud de los malos pasos y promover el deporte en la comunidad X</b>
+		</p>
                 <?php echo Message::print_form_error($input) ?>
             </div>
 
@@ -43,6 +87,17 @@
             <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
                 <label for="<?php echo $input ?>" class="id"><span class="required">*</span> Objetivo General:</label>
                 <textarea class="tinymce-edit" name="<?php echo $input ?>" id="<?php echo $input ?>" rows="3"><?php echo $this->input->post($input) ?></textarea>
+		<button type="button" id="helpBut2" onClick="mostrar('helpBut2','helpSpan2','helpP2')" style="border-style:none;color:red;background-color:#FFFFFF;cursor: help;border-style:outset;">+</button> <span id="helpSpan2"><b>Ayuda:</b> las metas principales que desea lograr con el proyecto</span>
+		<p id="helpP2" class="helpP2" style="text-align: justify;display:none;cursor:pointer;marginbreve descripci-left:16px;margin-right:14px;" onClick="mostrar('helpBut2','helpSpan2','helpP2')">
+			<b>Describir los fines al momentos de realizar el proyecto de manera general, sin lujo de detalles, es decir, describir a grandes rasgos el proyecto<br/><br/>
+			Ejemplo: <br/>
+			&nbsp&nbsp1) Estudiar el terreno de la cancha deportiva<br/>
+			&nbsp&nbsp2) Montar sistema de electricidad<br/>
+			&nbsp&nbsp3) Montar sistema de cableado electrico<br/>
+			.<br/>
+			.<br/>
+			.</b>
+		</p>
                 <?php echo Message::print_form_error($input) ?>
             </div>
 
@@ -50,6 +105,19 @@
             <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
                 <label for="<?php echo $input ?>" class="id">Objetivos espec&iacute;ficos:</label>
                 <textarea class="tinymce-edit" name="<?php echo $input ?>" id="<?php echo $input ?>" rows="3"><?php echo $this->input->post($input) ?></textarea>
+		<button type="button" id="helpBut3" onClick="mostrar('helpBut3','helpSpan3','helpP3')" style="border-style:none;color:red;background-color:#FFFFFF;cursor: help;border-style:outset;">+</button> <span id="helpSpan3"><b>Ayuda:</b> las metas detalladas de que desea lograr con el proyecto</span>
+		<p id="helpP3" class="helpP3" style="text-align: justify;display:none;cursor:pointer;margin-left:16px;margin-right:14px;" onClick="mostrar('helpBut3','helpSpan3','helpP3')">
+			<b>Describir los fines al momentos de realizar el proyecto de manera mas detallada, puede intetar desglosar los objetivos generales en tareas m&aacutes especializadas<br/><br/>
+			Ejemplo: <br/>
+			&nbsp&nbsp1) Sondear las rocas<br/>
+			&nbsp&nbsp2) Sondear el suelo<br/>
+			&nbsp&nbsp3) Perforaci&oacuten del suelo<br/>
+			&nbsp&nbsp4) Diagramar cableado electrico<br/>
+			&nbsp&nbsp5) Montar tablero el&eacutectrico<br/>
+			.<br/>
+			.<br/>
+			.</b>
+		</p>
                 <?php echo Message::print_form_error($input) ?>
             </div>
 			
@@ -57,6 +125,11 @@
             <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
                 <label for="<?php echo $input ?>" class="id">&Aacute;mbito Geogr&aacute;fico:</label>
                 <textarea class="tinymce-edit" name="<?php echo $input ?>" id="<?php echo $input ?>" rows="3"><?php echo $this->input->post($input) ?></textarea>
+		<button type="button" id="helpBut4" onClick="mostrar('helpBut4','helpSpan4','helpP4')" style="border-style:none;color:red;background-color:#FFFFFF;cursor: help;border-style:outset;">+</button> <span id="helpSpan4"><b>Ayuda:</b> describir el ambiente donde se desarrolla el proyecto</span>
+		<p id="helpP4" class="helpP4" style="text-align: justify;display:none;cursor:pointer;margin-left:16px;margin-right:14px;" onClick="mostrar('helpBut4','helpSpan4','helpP4')">		
+		<b>Describir las condiciones f&iacutesico naturales del lugar (humedad, &eacutepoca de lluvias, tipo de suelo)<br/><br/>
+			Ejemplo: las precipitaciones en el lugar son frecuentes, un alto nivel de humedad por lo que la cancha debería ser cerrada y con aire acondicionado, el suelo es arcilloso (suelo no muy recomendable para la construcci&oacuten)</b>
+		</p>
                 <?php echo Message::print_form_error($input) ?>
             </div>
 			
@@ -64,27 +137,120 @@
             <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
                 <label for="<?php echo $input ?>" class="id">Beneficiarios:</label>
                 <textarea class="tinymce-edit" name="<?php echo $input ?>" id="<?php echo $input ?>" rows="3"><?php echo $this->input->post($input) ?></textarea>
-                <?php echo Message::print_form_error($input) ?>
-            </div>
-			
-			<?php $input = 'proy_fam_benf_direc' ?>
-            <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
-                <label for="<?php echo $input ?>" class="">N&uacute;mero de familias beneficiadas directamente:</label>
-                <input type="text" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+		<button type="button" id="helpBut5" onClick="mostrar('helpBut5','helpSpan5','helpP5')" style="border-style:none;color:red;background-color:#FFFFFF;cursor: help;border-style:outset;">+</button> <span id="helpSpan5"><b>Ayuda:</b> mencionar quienes ser&aacuten beneficiados</span>
+		<p id="helpP5" class="helpP5" style="text-align: justify;display:none;cursor:pointer;margin-left:16px;margin-right:14px;" onClick="mostrar('helpBut5','helpSpan5','helpP5')">		
+		<b>Mencionar las personas, entes u organizaciones favorecidas gracias a proyecto propuesto<br/><br/>
+			Ejemplo: se beneficiaran a los j&oacutevenes deportista de edades comprendidas entre los 5 y 18 a&ntildeos</b>
+		</p>
                 <?php echo Message::print_form_error($input) ?>
             </div>
 
-            <?php $input = 'proy_fam_benf_indirec' ?>
-            <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
-				<label for="<?php echo $input ?>" class="">N&uacute;mero de familias beneficiadas indirectamente:</label>
-                <input type="text" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
-                <?php echo Message::print_form_error($input) ?>
-            </div>
-			
+	    <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
+		<table>
+			<caption>N&uacute;mero de familias beneficiadas directamente</caption>
+			<caption>(dentro de la comunidad)</caption>
+			<tr>
+				<td>Sexo/Edad</td>
+				<td style="text-align:center">Hombres</td>
+				<td style="text-align:center">Mujeres</td>
+			</tr>
+			<tr>
+				<td>J&oacutevenes</td>
+				<td><?php $input = 'proy_hom_jov_benf_direc' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+                			<?php echo Message::print_form_error($input) ?>
+				</td>
+				<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+				<td><?php $input = 'proy_muj_jov_benf_direc' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+			</tr>
+			<tr>
+				<td>Adultos</td>
+				<td><?php $input = 'proy_hom_adult_benf_direc' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+				<td></td>
+				<td><?php $input = 'proy_muj_adult_benf_direc' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+			</tr>
+			<tr>
+				<td>3ra edad</td>
+				<td><?php $input = 'proy_hom_ter_benf_direc' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+				<td></td>
+				<td><?php $input = 'proy_muj_ter_benf_direc' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+			</tr>
+		</table>
+	    </div>
+
+	    <div style="background:none;border:none;" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
+		<table>
+			<caption>N&uacute;mero de familias beneficiadas indirectamente</caption>
+			<caption>(dentro de la comunidad)</caption>
+			<tr>
+				<td>Sexo/Edad</td>
+				<td style="text-align:center">Hombres</td>
+				<td></td>
+				<td style="text-align:center">Mujeres</td>
+			</tr>
+			<tr>
+				<td>J&oacutevenes</td>
+				<td><?php $input = 'proy_hom_jov_benf_indirec' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+				<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+				<td><?php $input = 'proy_muj_jov_benf_indirec' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+			</tr>
+			<tr>
+				<td>Adultos</td>
+				<td><?php $input = 'proy_hom_adult_benf_indirec' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+				<td></td>
+				<td><?php $input = 'proy_muj_adult_benf_indirec' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+			</tr>
+			<tr>
+				<td>3ra edad</td>
+				<td><?php $input = 'proy_hom_ter_benf_indirec' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+				<td></td>
+				<td><?php $input = 'proy_muj_ter_benf_indirec' ?>
+					<input type="text" style="width:70px;height:10px" class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+					<?php echo Message::print_form_error($input) ?>
+				</td>
+			</tr>
+		</table>
+	    </div>
+	
 			<?php $input = 'proy_resultado' ?>
             <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
                 <label for="<?php echo $input ?>" class="id">Resultados esperados:</label>
                 <textarea class="tinymce-edit" name="<?php echo $input ?>" id="<?php echo $input ?>" rows="3"><?php echo $this->input->post($input) ?></textarea>
+		<button type="button" id="helpBut6" onClick="mostrar('helpBut6','helpSpan6','helpP6')" style="border-style:none;color:red;background-color:#FFFFFF;cursor: help;border-style:outset;">+</button> <span id="helpSpan6"><b>Ayuda:</b> que se espera lograr</span>
+		<p id="helpP6" class="helpP6" style="text-align: justify;display:none;cursor:pointer;margin-left:16px;margin-right:14px;" onClick="mostrar('helpBut6','helpSpan6','helpP6')">		
+		<b>Tama&ntildeo del proyecto, tiempo de logro, cantidad de personas que lo usaran, complemento social que satisfacer&aacute<br/><br/>
+			Ejemplo: la cancha deportiva abarcara 120x300 metros cuadrados, se espera terminar en un tiempo de 90 d&iacuteas para el uso de unas 50 personas por d&iacutea y complementar&aacute el desarrollo integral, social y la salud de la comunidad juvenil del sector X</b>
+		</p>
                 <?php echo Message::print_form_error($input) ?>
             </div>
 			
@@ -92,9 +258,35 @@
             <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
                 <label for="<?php echo $input ?>" class="id">Impacto esperado:</label>
                 <textarea class="tinymce-edit" name="<?php echo $input ?>" id="<?php echo $input ?>" rows="3"><?php echo $this->input->post($input) ?></textarea>
+		<button type="button" id="helpBut7" onClick="mostrar('helpBut7','helpSpan7','helpP7')" style="border-style:none;color:red;background-color:#FFFFFF;cursor: help;border-style:outset;">+</button> <span id="helpSpan7"><b>Ayuda:</b> que tanto mejorar&aacute la sociedad con el proyecto</span>
+		<p id="helpP7" class="helpP7" style="text-align: justify;display:none;cursor:pointer;margin-left:16px;margin-right:14px;" onClick="mostrar('helpBut7','helpSpan7','helpP7')">
+		<b>Cantidad de personas a beneficiar, caracter&iacutesticas que mejoran en la comunidad y en que cantidad mejor&aacuten<br/><br/>
+			Ejemplo: aproximadamente 50 personas se benefician de la cancha deportiva la cual esperemos mejore en un 30% la condici&oacute f&iacutesica de los deportistas juveniles de la comunidad</b>
+		</p>
                 <?php echo Message::print_form_error($input) ?>
             </div>
-			
+
+			<?php $input = 'proy_lugar' ?>
+            <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
+		<label for="<?php echo $input ?>" class="id">Lugar de realizaci&oacuten:</label>
+		<div id="map_canvas" style="width:100%; height:300px"></div>
+		<button type="button" id="helpBut8" onClick="mostrar('helpBut8','helpSpan8','helpP8')" style="border-style:none;color:red;background-color:#FFFFFF;cursor: help;border-style:outset;">+</button> <span id="helpSpan8"><b>Ayuda:</b> click izquierdo sobre el mapa para escoger ubicaci&oacuten del proyecto</span>
+		<p id="helpP8" class="helpP8" style="text-align: justify;display:none;cursor:pointer;margin-left:16px;margin-right:14px;" onClick="mostrar('helpBut8','helpSpan8','helpP8')">
+		<b>Presione click izquierdo para seleccionar<br/><br/>
+			Ejemplo: presione click izquierdo para seleccionar la zona donde se efectuara el proyecto</b>
+		</p>
+
+		<div>
+				<?php $input = 'proy_map_zoom' ?>
+		<input type="text" style="display:none" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+				<?php $input = 'proy_map_lat' ?>
+		<input type="text" style="display:none" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+				<?php $input = 'proy_map_long' ?>
+		<input type="text" style="display:none" class="input small" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
+		</div>
+                <?php echo Message::print_form_error($input) ?>
+            </div>
+
 			<?php $input = 'proy_fecha_culm' ?>
             <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
                 <label for="<?php echo $input ?>" class="">Fecha de culminaci&oacute;n:</label>

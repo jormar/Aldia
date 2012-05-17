@@ -9,7 +9,26 @@
     <link href="<?php echo $THEME_FOLDER ?>/js/jquery-ui/css/cupertino/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<?php echo $THEME_FOLDER ?>/js/jquery-ui/js/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="<?php echo $THEME_FOLDER ?>/js/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
-    
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
+    <script language="javascript">
+	function mostrar(b,s,p){
+		b2 = document.getElementById(b);
+		s2 = document.getElementById(s);
+		p2 = document.getElementById(p);
+		p2Aux = "p."+p
+		
+		if(b2.style.display == "none") {
+			p2.style.display = "none";
+			b2.style.display = "inline";
+			s2.style.display = "inline";
+			
+		} else {
+			b2.style.display = "none";
+			s2.style.display = "none";
+			$(p2Aux).addClass("ohmy").show("slow");			
+		}
+        }
+    </script>
 </head>
 <body>
 <div class="main">
