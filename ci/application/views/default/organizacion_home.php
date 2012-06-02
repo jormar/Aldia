@@ -23,24 +23,31 @@
                 <th scope="col" class="" ><a href="">Nombre</a></th>
                 <th scope="col" class="" ><span>Sector</span></th>
                 <th scope="col" class="" ><span>Descripci&oacute;n</span></th>
+		<th scope="col" class="" ><span>Acciones</span></th>
             </tr>
+
         </thead>
 
 	<tfoot>
             <tr>
-                <th scope="col" class="" colspan="3" ></th>
+                <th scope="col" class="" colspan="4" ></th>
             </tr>
         </tfoot>
 	<tbody id="the-list">
-<?php foreach($organizacion as $org) { ?>
-<tr id="post-18" class="alternate author-self status-draft format-default iedit" valign="top">
-<td class=""><?php echo $org->org_nombre ?></td>
-<td class=""><?php echo $org->org_sectores ?></td>
+	<?php foreach($organizacion as $org) { ?>
+		<tr id="post-18" class="alternate author-self status-draft format-default iedit" valign="top">
+		<td class=""><?php echo $org->org_nombre ?></td>
+		<td class=""><?php echo $org->org_sectores ?></td>
 		<td class=""><?php echo $org->org_desc ?></td>
+		<td class="">
+		<a href="<?php echo base_url('organizacion/editar/' . $org->org_id) ?>">Editar</a>
+		<a href="<?php echo base_url('organizacion/eliminar/'.$org->org_id) ?>">Eliminar</a>
+
+		</td>
 
 	</td>
-<?php } ?>
-</tbody>
+	<?php } ?>
+	</tbody>
         </table>
     </div>
 <?php } $i++; } ?>
