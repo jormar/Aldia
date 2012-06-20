@@ -72,9 +72,9 @@ $db['local']['stricton'] = FALSE;
 
 
 $db['remote']['hostname'] = 'localhost';
-$db['remote']['username'] = 'algoraso_aldia';
-$db['remote']['password'] = 'dLD+)k;LUDm1';
-$db['remote']['database'] = 'algoraso_aldia';
+$db['remote']['username'] = 'aldia';
+$db['remote']['password'] = 'aldia';
+$db['remote']['database'] = 'aldia';
 $db['remote']['dbdriver'] = 'mysql';
 $db['remote']['dbprefix'] = 'aldia_';
 $db['remote']['pconnect'] = TRUE;

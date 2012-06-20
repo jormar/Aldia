@@ -1,8 +1,21 @@
-<?php get_header() ?>
+<?php
+get_header();
 
+function is_image($path) {
+    $a = getimagesize($path);
+    $image_type = $a[2];
+
+    if (in_array($image_type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP))) {
+        return true;
+    }
+    return false;
+}
+?>
+
+
+<!--Scripts de uploadify-->
 <script type="text/javascript" src="<?php echo site_url('uploadify/jquery.uploadify.v2.1.4.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('uploadify/swfobject.js'); ?>"></script>
-<link href="<?php echo site_url('uploadify/uploadify.css'); ?>" type="text/css" rel="stylesheet" />
 <script type="text/javascript">
     archivos_a_eliminar = new Array();
     
@@ -25,6 +38,10 @@
          *los formularios body.removeChild('uploader');*/
         
 
+        /*BEGIN configuracion del fancybox*/
+        $("a#single_image").fancybox();
+        /*END configuracion del fancybox*/
+	
     });
    
 
@@ -46,38 +63,71 @@
     <button id="a_crear_historial"> + Agregar nueva nota</button>
 </div>
 
-<?php foreach ($HISTORIALES as $historial) { ?>
-    <div class="triangle-border">
-        <?php echo $historial->hist_texto ?><br>
-        <?php echo $historial->hist_type ?><br>
-        <?php echo $historial->hist_created ?><br>
+<table class="list-table" cellspacing="0">
+    <thead>
+        <tr>
+            <th scope="col" class="" ><span>Autor/Rol</span></th>
+            <th scope="col" class="" ><span>Texto</span></th>
+            <th scope="col" class="" ><span>Tipo</span></th>
+            <th scope="col" class="" ><span>Fecha de creaci&oacute;n</span></th>
+            <th scope="col" class="" ><span>Archivos</span></th>
+            <th scope="col" class="" ><span>Acciones</span></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th scope="col" class="" colspan="5" ></th>
+        </tr>
+    </tfoot>
+    <tbody id="the-list">
         <?php
-        /* se obtienen los datos del creador del historial */
-        $user = new Usuario_db();
-        $user->user_id = $historial->aldia_usuarios_user_id;
-        $usuario = $user->get();
-        echo $usuario->user_nombre;
-        echo $usuario->user_apellido;
-        /* se obtiene su rol */
-        $user_p = new usuario_participa_db();
-        $user_p->user_id = $usuario->user_id;
-        $user_p->proy_id = $PROYECTO->proy_id;
-        $participa = $user_p->get();
-        echo $participa->rol;
-        ?>
-        <a id = "a-his-<?php echo $historial->hist_id ?>" class = "a_editar_historial" title = "Editar historial" href = "<?php echo site_url('proyecto/editar_historial/' . $PROYECTO->proy_id . '/' . $historial->hist_id) ?>">Editar</a>
-        - <a class = "a_eliminar_historial" title = "Eliminar historal" href = "<?php echo site_url('proyecto/eliminar_historial/' . $PROYECTO->proy_id . '/' . $historial->hist_id) ?>">Eliminar</a >
-        <div id ="imagenes">
-            <?php
-            $archivos = glob($this->_directoriosubidaarchivos . "archivos_historial/" . $historial->hist_id . "_*");
-            foreach ($archivos as $archivo) {
-                $nombre_archivo = basename($archivo);
-                echo '<img src=http://' . $_SERVER['SERVER_NAME'] . $rutaCarpetaSubidas . 'archivos_historial/' . $nombre_archivo . ' height="50" width="50"> ';
-            }
+        foreach ($HISTORIALES as $historial) {
+            /* se obtienen los datos del creador del historial */
+            $user = new Usuario_db();
+            $user->user_id = $historial->aldia_usuarios_user_id;
+            $usuario = $user->get();
+            /* se obtiene su rol */
+            $user_p = new usuario_participa_db();
+            $user_p->user_id = $usuario->user_id;
+            $user_p->proy_id = $PROYECTO->proy_id;
+            $participa = $user_p->get();
+
+            echo '<td class="" width="">' . $usuario->user_nombre . ' ' . $usuario->user_apellido . '/' . $participa->rol . '</td>';
+            echo '<td class="" width="">' . $historial->hist_texto . '</td>';
+            echo '<td class="" width="">' . $historial->hist_type . '</td>';
+            echo '<td class="" width="">' . $historial->hist_created . '</td>';
             ?>
-        </div>
-    </div>
-<?php } ?>
+        <td>
+            <div id ="imagenes">
+                <?php
+                $archivos = glob($this->_directoriosubidaarchivos . "archivos_historial/" . $historial->hist_id . "_*");
+                foreach ($archivos as $archivo) {
+                    $nombre_archivo = basename($archivo);
+                    /* se obtiene la extension para saber como mostrarlo */
+//                $path_info = pathinfo($rutaCarpetaSubidas . 'archivos_historial/' . $nombre_archivo);
+//                $extension = $path_info['extension'];
+
+                    $file = 'http://' . $_SERVER['SERVER_NAME'] . $rutaCarpetaSubidas . 'archivos_historial/' . $nombre_archivo;
+                    if (is_image($file)) {
+                        echo '<a id="single_image" href="' . $file . '">';
+                        echo '<img src="' . $file . '" height="50" width="50"> ';
+                        echo '</a>';
+                    } else {
+                        echo '<a href="' . $file . '"><img src="' . $THEME_FOLDER . '/images/unknown_file.jpg" height="50" width="50"></a>';
+                    }
+                }
+                ?>
+            </div>
+        </td>
+        <td class="" width=""><a id = "a-his-<?php echo $historial->hist_id ?>" class = "a_editar_historial" title = "Editar historial" href = "<?php echo site_url('proyecto/editar_historial/' . $PROYECTO->proy_id . '/' . $historial->hist_id) ?>">Editar</a>
+            - <a class = "a_eliminar_historial" title = "Eliminar historal" href = "<?php echo site_url('proyecto/eliminar_historial/' . $PROYECTO->proy_id . '/' . $historial->hist_id) ?>">Eliminar</a ></td>
+
+    </tr>
+<?php } ?>     
+
+</tbody>
+</table>
+
 <!-- Formulario de historiales -->
 
 <?php
@@ -93,6 +143,7 @@ foreach ($HISTORIALES as $historial) {
 <div id="nuevo_historial" style="display:none" class="popup">
     <?php get_sidebar('historial_crear') ?>
 </div>
+
 
 
 <div id="eliminar_historial" style="display:none" class="popup">

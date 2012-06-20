@@ -12,8 +12,24 @@
             'sizeLimit' : 10485760,
             'simUploadLimit': 1,
             'onComplete': function (event, queueID, fileObj, response, data) {
-                $("#showimage").append('<div class="imagen"><img name= "' + fileObj.name + '" src="http://<?php echo $_SERVER['SERVER_NAME'] . $rutaCarpetaSubidas . $n_random;
+                function inArray(array, value) {
+                    for (var i = 0; i < array.length; i++) {
+                        if (array[i] == value) return true;
+                    }
+                    return false;
+                }; 
+                var a_extension = ["jpg", "png", "bmp"];
+                var extension = fileObj.filePath.slice(fileObj.filePath.length-3,fileObj.filePath.length);
+                var t_nuevo;
+                if (inArray(a_extension,extension))
+                {
+                    $("#showimage").append('<div class="imagen"><img name= "' + fileObj.name + '" src="http://<?php echo $_SERVER['SERVER_NAME'] . $rutaCarpetaSubidas . $n_random;
 ?>' + fileObj.name + '" height="50" width="50" /><a href="#" id="enlaceajax">eliminar</a></div>');
+                } else
+                {
+                    $("#showimage").append('<div class="imagen"><img name= "' + fileObj.name + '" src="<?php echo $THEME_FOLDER ?>/images/unknown_file.jpg" height="50" width="50"/><a href="#" id="enlaceajax">eliminar</a></div>');
+                }
+               
             }                  
         });//fin funcion oncomplete
         
@@ -49,8 +65,8 @@
         <div class="field <?php if (form_error($input)) echo 'error' ?>">
             <label for="<?php echo $input ?>" class="id">Tipo:</label>
         </div>
-        <input type="radio" class="" name="<?php echo $input ?>" id="<?php echo $input ?>_correccion" value="correccion" <?php if ($this->input->post($input) == "correccion") echo "checked"; ?> /> <label for="<?php echo $input ?>_correccion">Correcci&oacute;n</label>
-        <input type="radio" class="" name="<?php echo $input ?>" id="<?php echo $input ?>_observacion" value="observacion"  <?php if ($this->input->post($input) == "observacion") echo "checked"; ?> /> <label for="<?php echo $input ?>_observacion">Observaci&oacute;n</label>
+        <input type="radio" class="" name="<?php echo $input ?>" id="<?php echo $input ?>_correccion" value="correcci&oacute;n" <?php if ($this->input->post($input) == "correccion") echo "checked"; ?> /> <label for="<?php echo $input ?>_correccion">Correcci&oacute;n</label>
+        <input type="radio" class="" name="<?php echo $input ?>" id="<?php echo $input ?>_observacion" value="observaci&oacute;n"  <?php if ($this->input->post($input) == "observacion") echo "checked"; ?> /> <label for="<?php echo $input ?>_observacion">Observaci&oacute;n</label>
         <input type="radio" class="" name="<?php echo $input ?>" id="<?php echo $input ?>_nota" value="nota"  <?php if ($this->input->post($input) == "nota") echo "checked"; ?> /> <label for="<?php echo $input ?>_nota">Nota</label>
         <input type="radio" class="" name="<?php echo $input ?>" id="<?php echo $input ?>_noticia" value="noticia"  <?php if ($this->input->post($input) == "noticia") echo "checked"; ?> /> <label for="<?php echo $input ?>_noticia">Noticia</label>
         <div class="field <?php if (form_error($input)) echo 'error' ?>">
@@ -61,8 +77,12 @@
 </div>
 
 <div id="uploader">
-    <div id="fileUpload">You have a problem with your javascript</div>
+    <div id="fileUpload">You have a problem with your javascript</div><br>
     <a href="javascript:$('#fileUpload').uploadifyUpload();">subir archivos</a>
+    <br><br>
+    <div><b>Archivos subidos actualmente:</b></div>
+    <br>
+    
     <div id="showimage"></div>
     <br>
     <div id="info_msg"></div>
