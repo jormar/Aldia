@@ -105,9 +105,9 @@ class Proyecto extends ALDIA_Controller {
                 $this->proyecto_db->proy_resultado = set_value('proy_resultado');
                 $this->proyecto_db->proy_impacto = set_value('proy_impacto');
                 $this->proyecto_db->proy_fecha_culm = set_value('proy_fecha_culm');
-	        $this->proyecto_db->proy_map_zoom = set_value('proy_map_zoom');
-	        $this->proyecto_db->proy_map_lat = set_value('proy_map_lat');
-	        $this->proyecto_db->proy_map_long = set_value('proy_map_long');
+                $this->proyecto_db->proy_map_zoom = set_value('proy_map_zoom');
+                $this->proyecto_db->proy_map_lat = set_value('proy_map_lat');
+                $this->proyecto_db->proy_map_long = set_value('proy_map_long');
 
                 $this->proyecto_db->proy_fecha_mod = date('Y-m-d H:i:s');
                 $this->proyecto_db->proy_com_id = $current_user->user_com_id;
@@ -237,9 +237,9 @@ class Proyecto extends ALDIA_Controller {
                 $this->proyecto_db->proy_resultado = set_value('proy_resultado');
                 $this->proyecto_db->proy_impacto = set_value('proy_impacto');
                 $this->proyecto_db->proy_fecha_culm = set_value('proy_fecha_culm');
-	        $this->proyecto_db->proy_map_zoom = set_value('proy_map_zoom');
-	        $this->proyecto_db->proy_map_lat = set_value('proy_map_lat');
-	        $this->proyecto_db->proy_map_long = set_value('proy_map_long');
+                $this->proyecto_db->proy_map_zoom = set_value('proy_map_zoom');
+                $this->proyecto_db->proy_map_lat = set_value('proy_map_lat');
+                $this->proyecto_db->proy_map_long = set_value('proy_map_long');
 
 
                 // $this->proyecto_db->proy_fecha_mod = date('Y-m-d H:i:s');
@@ -1041,7 +1041,6 @@ class Proyecto extends ALDIA_Controller {
         $archivos = $this->input->post('archivos');
         if ($archivos != null) {
             /* eliminacion de archivos mediante editar */
-            $archivos = $this->input->post('archivos');
             foreach ($archivos as $valor) {
                 unlink($this->_directoriosubidaarchivos . 'archivos_historial/' . $valor);
             }
@@ -1107,8 +1106,11 @@ class Proyecto extends ALDIA_Controller {
                     $historial = $this->historial_db->get();
                     $archivos = glob($this->_directoriosubidaarchivos . $n_random . "*");
                     foreach ($archivos as $archivo) {
-                        $nombre_archivo = basename($archivo);
-                        rename($archivo, $this->_directoriosubidaarchivos . "archivos_historial/" . $historial->hist_id . "_" . substr($nombre_archivo, 9));
+                        $n_random = mt_rand();
+                        /* se obtiene la extension */
+                        $path_info = pathinfo($archivo);
+                        $extension = $path_info['extension'];
+                        rename($archivo, $this->_directoriosubidaarchivos . "archivos_historial/" . $historial->hist_id . "_" . $n_random . '.' . $extension);
                     }
                     $this->session->set_flashdata('SUCCESS_MSG', 'Registro creado.');
                     redirect(current_url());
@@ -1133,7 +1135,7 @@ class Proyecto extends ALDIA_Controller {
         $this->load->library('form_validation');
 
         $this->proyecto_db->proy_id = $proyecto_id;
-        $proyecto = $this->proyecto_db->get();
+        $proyecto = $this->preditaroyecto_db->get();
         if (!currentuser_can('proy_modif_histo', $proyecto)) {
             $this->session->set_flashdata('ERROR_MSG', 'No tiene los permisos necesarios para realizar esta acci&oacute;n.');
             redirect();
@@ -1171,8 +1173,11 @@ class Proyecto extends ALDIA_Controller {
                      */
                     $archivos = glob($this->_directoriosubidaarchivos . $n_random . "*");
                     foreach ($archivos as $archivo) {
-                        $nombre_archivo = basename($archivo);
-                        rename($archivo, $this->_directoriosubidaarchivos . "archivos_historial/" . $historial_id . "_" . substr($nombre_archivo, 9));
+                        $n_random = mt_rand();
+                        /* se obtiene la extension */
+                        $path_info = pathinfo($archivo);
+                        $extension = $path_info['extension'];
+                        rename($archivo, $this->_directoriosubidaarchivos . "archivos_historial/" . $historial_id . "_" . $n_random . '.' . $extension);
                     }
 
 
