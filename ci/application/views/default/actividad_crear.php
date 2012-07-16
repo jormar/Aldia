@@ -1,7 +1,4 @@
-
-
-
-<div  class="register-form">
+<div class="register-form">
     <form id="actividad_crear_form" action="<?php echo site_url('proyecto/crear_actividad/'.$PROYECTO->proy_id) ?>" method="POST">
         <?php $input = 'act_desc' ?>
         <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
@@ -32,7 +29,6 @@
             <span class="info">(Formato: YYYY-MM-DD)</span>
             <?php echo Message::print_form_error($input) ?>
         </div>
-		<div id="map_canvas" style="width:100%; height:200px"></div>
-        	<input type="hidden" name="submit-act-crear" value="submit-act-crear" />
-	</form>
+        <input type="hidden" name="submit-act-crear" value="submit-act-crear" />
+    </form>
 </div>
