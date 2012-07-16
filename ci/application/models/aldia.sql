@@ -23,6 +23,38 @@ CREATE  TABLE IF NOT EXISTS `aldia`.`aldia_comunidad` (
 ENGINE = MyISAM;
 
 
+
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `aldia_maps`
+--
+
+CREATE TABLE IF NOT EXISTS `aldia_maps` (
+  `map_id` int(11) NOT NULL AUTO_INCREMENT,
+  `map_act_id` int(11) NOT NULL,
+  `map_lang` double NOT NULL,
+  `map_lat` double NOT NULL,
+  `map_desc` text NOT NULL,
+  `map_proy_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`map_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Volcar la base de datos para la tabla `aldia_maps`
+--
+
+INSERT INTO `aldia_maps` (`map_id`, `map_act_id`, `map_lang`, `map_lat`, `map_desc`, `map_proy_id`) VALUES
+(1, 1, -71.1919374999995, 7.61945717718906, 'actividad 1', 1),
+(2, 6, -66.429364257812, 10.440202583806, 'actividad', 1),
+(3, 7, -66.6030092959697, 9.67276469957268, 'actividad 1', 2),
+(4, 8, -66.429364257812, 10.440202583806, 'actividad', 3);
+
+
+
+
+
 -- -----------------------------------------------------
 -- Table `aldia`.`aldia_organizacion`
 -- -----------------------------------------------------
