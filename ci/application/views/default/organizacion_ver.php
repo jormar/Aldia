@@ -1,15 +1,15 @@
 <?php get_header() ?>
-<h3 class="">Crear una organizaci&oacute;n</h3>
+<h3 class="">Ver Organizaci&oacute;n</h3>
 
      <p class="top-info">
-         Desde esta p&aacute;gina puede crear una nueva organizaci&oacute;n dentro del sistema. 
+         Desde esta p&aacute;gina puede ver la informaci&oacute;n disponible sobre esta organizaci&oacute;n. 
     </p>
-<div class="register-form">
+
 
         <?php Message::print_all_messages() ?>
         <?php // Message::print_all_form_errors() ?>
 
-<form action="<?php echo site_url('organizacion/nuevo') ?>" method="POST">
+
 	<?php $input = 'nombre_org' ?>
         <div class="field field-box-white <?php if( form_error($input) ) echo 'error'; else echo 'no-error'; ?>">
 			<label for="<?php echo $input ?>" class="id"><span class="required">*</span> Nombre de la organizaci&oacute;n:</label>
@@ -28,19 +28,11 @@
                 <input type="text" class="input" name="<?php echo $input ?>" id="<?php echo $input ?>" value="<?php echo $this->input->post($input) ?>" />
                 <?php echo Message::print_form_error($input) ?>
             </div>
+        <hr />
+        <h2>Documentos</h2>
 
-         <div class="submit">
-                <input type="submit" class="" value="Crear Organizaci&oacute;n" name="submit-org-nuevo" />
-         </div>
-</form>
-  </div>
-                           <script>
-	jQuery(function() {
-        // Botones
-		jQuery( "input:submit").button();
-        jQuery('html,body').animate({scrollTop: $(".error").offset().top}, 'slow');
-	});
-	</script>
+
+
 <?php get_footer() ?>
 
 

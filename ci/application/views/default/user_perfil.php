@@ -92,6 +92,8 @@
             </div>
         </form>
     </div>
+    <hr />
+        <h2>Invitaciones pendientes</h2>
 
     <script>
 	jQuery(function() {

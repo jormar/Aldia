@@ -1,5 +1,8 @@
 <?php get_header() ?>
     <h3 class="">Editar Organizaci&oacute;n</h3>
+     <p class="top-info">
+         Desde esta p&acute;gina puede modificar la informaci&oacute;n de esta organizaci&oacute;n.
+    </p>
 		   <div class="register-form">
 		<?php Message::print_all_messages() ?>
 			<form action="<?php echo site_url('organizacion/editar/'.$ORGANIZACION->org_id) ?>" method="POST">
@@ -27,6 +30,13 @@
                 <input type="submit" class="" value="Guardar" name="submit-editar-org" />
             </div>
         </form>
+                           <script>
+	jQuery(function() {
+        // Botones
+		jQuery( "input:submit").button();
+        jQuery('html,body').animate({scrollTop: $(".error").offset().top}, 'slow');
+	});
+	</script>
 
 <?php get_footer() ?>
 
