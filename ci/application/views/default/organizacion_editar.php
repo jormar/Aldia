@@ -1,7 +1,7 @@
 <?php get_header() ?>
     <h3 class="">Editar Organizaci&oacute;n</h3>
      <p class="top-info">
-         Desde esta p&acute;gina puede modificar la informaci&oacute;n de esta organizaci&oacute;n.
+         Desde esta p&aacute;gina puede modificar la informaci&oacute;n de esta organizaci&oacute;n.
     </p>
 		   <div class="register-form">
 		<?php Message::print_all_messages() ?>
