@@ -134,7 +134,7 @@
             title: title,
             width: 400,
             buttons: {
-                Cancel: function() {
+                Cancelar: function() {
                     $( this ).dialog( "close" );
                 },
                 Aceptar: function() {

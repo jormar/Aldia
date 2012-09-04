@@ -35,29 +35,53 @@ foreach (array($ORGANIZACIONES_REG) as $organizacion) {
                     </tr>
                 </tfoot>
                 <tbody id="the-list">
-                    <?php foreach ($organizacion as $org) { ?>
+                    <?php foreach ($organizacion as $org) {if ($org->org_status > 0){ ?>
                         <tr id="post-18" class="alternate author-self status-draft format-default iedit" valign="top">
                             <td class="">
-                                <a href="<?php echo base_url('organizacion/ver/' . $org->org_id) ?>"><?php echo $org->org_nombre ?></a>
+                                <?php if (currentuser_can('org_ver', $org)) { ?>
+                                    <a href="<?php echo base_url('organizacion/ver/' . $org->org_id) ?>"><?php echo $org->org_nombre ?></a>
+                                <?php } else { ?>
+                                    <?php echo $org->org_nombre ?>
+                                <?php } ?>
                             </td>
                             <td class=""><?php echo $org->org_sectores ?></td>
                             <td class=""><?php echo $org->org_desc ?></td>
                             <td class="">
+                                <?php if (currentuser_can('org_editar', $org)) { ?>
                                 <a href="<?php echo base_url('organizacion/editar/' . $org->org_id) ?>">Editar</a>
-                                <a title="<?php echo $org->org_nombre ?>" class="o_eliminar" href="<?php echo base_url('organizacion/eliminar/' . $org->org_id) ?>">Eliminar</a>
-                                <a href="<?php echo base_url('organizacion/invitaciones/' . $org->org_id) ?>">Manejar Invitaciones</a>
+                                    
+                                <?php } else { ?>
+                                    Editar
+                                <?php } ?>
+                                <?php if (currentuser_can('org_editar', $org)) { ?>
+                                    <a href="<?php echo base_url('organizacion/invitaciones/' . $org->org_id) ?>">Manejar Invitaciones</a>
+                                <?php } else { ?>
+                                    Manejar Invitaciones
+                                <?php } ?>
+                                <?php if (currentuser_can('org_eliminar', $org)) { ?>
+                                    <a title="<?php echo $org->org_nombre ?>" class="o_eliminar" href="<?php echo base_url('organizacion/eliminar/' . $org->org_id) ?>">Eliminar</a>
+                                <?php } else { ?>
+                                    Eliminar
+                                <?php } ?>
+                                
+                                
+                                
                             </td>
 
 
-                        <?php } ?>
+                        <?php } }?>
                 </tbody>
             </table>
         </div>
-    <?php } $i++;
-} ?>
+        <?php
+    } $i++;
+}
+?>
 
 
-<li><a href="<?php echo base_url('organizacion/nuevo') ?>" class=""><span>Crear Organizaci&oacute;n</span></a></li>
+<button onclick="location.href='<?php echo base_url('organizacion/nuevo') ?>'">Crear Organizaci&oacute;n</button>
+         
+
 
 <!-- Ventanas de dialogo -->
 <div id="eliminar-dialog-confirm" title="" style="display: none">
@@ -71,6 +95,8 @@ foreach (array($ORGANIZACIONES_REG) as $organizacion) {
 </div>
 <script>
     jQuery(function() {
+
+        jQuery( "input:submit, button").button();
         $('a.o_eliminar').click(function() {
             var orgname = jQuery( this ).attr('title');
             jQuery('.var-org_name').html( orgname );
@@ -85,7 +111,7 @@ foreach (array($ORGANIZACIONES_REG) as $organizacion) {
             title: title,
             width: 400,
             buttons: {
-                Cancel: function() {
+                Cancelar: function() {
                     $( this ).dialog( "close" );
                 },
                 Aceptar: function() {
@@ -95,6 +121,6 @@ foreach (array($ORGANIZACIONES_REG) as $organizacion) {
             }
         });
         return false;
-            }</script>
+    }</script>
 
 <?php get_footer() ?>

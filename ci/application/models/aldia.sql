@@ -24,12 +24,38 @@ ENGINE = MyISAM;
 
 
 
+-- -----------------------------------------------------
+-- Table `aldia`.`usuario_miembro_organizacion`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `aldia`.`aldia_usuario_miembro_organizacion` ;
+
+  
+CREATE TABLE IF NOT EXISTS `aldia`.`aldia_usuario_miembro_organizacion` (
+  `org_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `privilegio` int(11) NOT NULL COMMENT 'privilegios del usuario 0: Ninguno 1: Ver 2: subir documentos 3: editar 4: invitar 5: eliminar',
+  `e_invitacion` int(11) NOT NULL COMMENT 'Estado de invitacion 0: no invitado 1: invitado 2: aceptada',
+  PRIMARY KEY (`org_id`,`user_id`),
+  CONSTRAINT `fk_aldia_miembro_organizacion`
+    FOREIGN KEY (`org_id` )
+    REFERENCES `aldia`.`aldia_organizacion` (`org_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_aldia_miembro_usuario`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `aldia`.`aldia_usuarios` (`user_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='relacion entre usuarios y organizaciones';
+
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `aldia_maps`
 --
+DROP TABLE IF EXISTS `aldia_maps` ;
+
 
 CREATE TABLE IF NOT EXISTS `aldia_maps` (
   `map_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -66,6 +92,7 @@ CREATE  TABLE IF NOT EXISTS `aldia`.`aldia_organizacion` (
   `org_nombre` VARCHAR(100) NOT NULL ,
   `org_sectores` VARCHAR(100) NOT NULL ,
   `org_desc` VARCHAR(45) NOT NULL ,
+  `org_status` INT NOT NULL ,
   PRIMARY KEY (`org_id`) ,
   INDEX `fk_aldia_organizacion_aldia_comunidad1` (`org_com_id` ASC) ,
   CONSTRAINT `fk_aldia_organizacion_aldia_comunidad1`
@@ -385,8 +412,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `aldia`;
-INSERT INTO `aldia`.`aldia_organizacion` (`org_id`, `org_com_id`, `org_nombre`, `org_sectores`, `org_desc`) VALUES (1, 1, 'Consejo Comunal', 'Los Pinos', 'Consejo Comunal de la comunidad Ojo de Agua');
-INSERT INTO `aldia`.`aldia_organizacion` (`org_id`, `org_com_id`, `org_nombre`, `org_sectores`, `org_desc`) VALUES (2, 1, 'Sociedad Civil', 'Los Pinos, y el resto', 'Sociedad Civil de Ojo de Agua');
+INSERT INTO `aldia`.`aldia_organizacion` (`org_id`, `org_com_id`, `org_nombre`, `org_sectores`, `org_desc`, `org_status`) VALUES (1, 1, 'Consejo Comunal', 'Los Pinos', 'Consejo Comunal de la comunidad Ojo de Agua','1');
+INSERT INTO `aldia`.`aldia_organizacion` (`org_id`, `org_com_id`, `org_nombre`, `org_sectores`, `org_desc`, `org_status`) VALUES (2, 1, 'Sociedad Civil', 'Los Pinos, y el resto', 'Sociedad Civil de Ojo de Agua','1');
 
 COMMIT;
 
@@ -441,3 +468,10 @@ INSERT INTO `aldia`.`aldia_actividades` (`act_id`, `act_proy_id`, `act_desc`, `a
 INSERT INTO `aldia`.`aldia_actividades` (`act_id`, `act_proy_id`, `act_desc`, `act_responsables`, `act_inicio`, `act_fin`, `act_status`) VALUES (1, 1, 'Conformar un Equipo Promotor Deportivo dentro de la comunidad, para que gestione ante las instituciones y autoridades la asesoría y asistencia técnica necesaria para concretar el proyecto.', '2 voceros del Consejo Comunal, perteneciente al comité de trabajo deporte, cultura y recreación', NULL, NULL, 'none');
 
 COMMIT;
+
+--
+-- Dumping data for table `alda_usuario_miembro_organizacion`
+--
+
+INSERT INTO `aldia`.`aldia_usuario_miembro_organizacion` (`org_id`, `user_id`, `privilegio`, `e_invitacion`) VALUES (1, 1, 5, 2);
+INSERT INTO `aldia`.`aldia_usuario_miembro_organizacion` (`org_id`, `user_id`, `privilegio`, `e_invitacion`) VALUES (2, 1, 5, 2);

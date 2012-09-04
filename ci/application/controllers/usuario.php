@@ -96,11 +96,25 @@ class Usuario extends ALDIA_Controller {
         if ($id==0 || $id == $current_user->user_id) {
             // Esta modificando su perfil
             $this->_perfil_proccess($current_user);
+            
+            //Codigo para mostrar invitaciones, se supone que solo la misma persona debe aceptarlas
+            
+            
+            $this->db->select('*');
+            $this->db->from('aldia_organizacion AS A');
+            $this->db->join('aldia_usuario_miembro_organizacion AS B', 'A.org_id = B.org_id', 'INNER');
+            $this->db->where('user_id', $current_user->user_id);
+            // $result = $this->db->get();
+            $this->view_data['DATA'] = $this->db->get();
+            
+            
+            
 
         } else {
             // intenta modificar el de alguien mas...
             $this->usuario_db->user_id = $id;
             $user = $this->usuario_db->get();
+            $this->view_data['DATA'] = null;
 
             // if ( currentuser_can_change_user($user) ) {
             if ( currentuser_can('cambiar_perfil', $user) ) {
@@ -252,6 +266,7 @@ class Usuario extends ALDIA_Controller {
             } else {
                 $this->session->set_flashdata('WARNING_MSG', 'No se realizaron cambios');
             }
+            
         }
         redirect( 'usuario/lista' );
     }

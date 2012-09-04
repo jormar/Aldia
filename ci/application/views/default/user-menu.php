@@ -19,13 +19,13 @@
 
 <?php
     $org_levels = get_org_rol_levels();
-    if ( $org_levels[$user->user_org_rol] <= ADMIN_LEVEL ) {
+    
 ?>
 <div class="menu" style="float: right">
     <ul style="text-align: right">
-        <li><a href="<?php echo base_url('usuario/lista') ?>" class="<?php if(preg_match('/usuario\/lista/', current_url())) echo 'active' ?>" ><span>Usuarios</span></a></li>
-        <li><a href="<?php echo base_url('comunidad') ?>" class="<?php if(preg_match('/comunidad$/', current_url())) echo 'active' ?>" ><span>La comunidad</span></a></li>
+        <?php if ( $org_levels[$user->user_org_rol] <= ADMIN_LEVEL ) { ?> <li><a href="<?php echo base_url('usuario/lista') ?>" class="<?php if(preg_match('/usuario\/lista/', current_url())) echo 'active' ?>" ><span>Usuarios</span></a></li><?php } ?>
+        <?php if ( $org_levels[$user->user_org_rol] <= ADMIN_LEVEL ) { ?> <li><a href="<?php echo base_url('comunidad') ?>" class="<?php if(preg_match('/comunidad$/', current_url())) echo 'active' ?>" ><span>La comunidad</span></a></li><?php } ?>
         <li><a href="<?php echo base_url('organizacion') ?>" class="<?php if(preg_match('/organizacion/', current_url())) echo 'active' ?>" ><span>Organizaciones</span></a></li>
     </ul>
 </div>
-<?php } ?>
+

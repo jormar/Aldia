@@ -1,4 +1,7 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 /**
  * View Helper. Funciones para hacer las vistas anidadas mas amigables.
  *
@@ -8,14 +11,13 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/helpers/array_helper.html
  */
-
 // ------------------------------------------------------------------------
-if ( ! function_exists('user_get_data'))
-{
-	function user_get_data () {
-		$CI =& get_instance();
+if (!function_exists('user_get_data')) {
 
-        if ( $CI->session->userdata('islogin') ) {
+    function user_get_data() {
+        $CI = & get_instance();
+
+        if ($CI->session->userdata('islogin')) {
             $data = $CI->session->userdata('user');
 
             $result = new Usuario_db();
@@ -27,26 +29,27 @@ if ( ! function_exists('user_get_data'))
         }
 
         return NULL;
-	}
+    }
+
 }
 
 /**
  * Verifica que un usuario este logueado
  */
-if ( ! function_exists('user_is_login'))
-{
-	function user_is_login () {
+if (!function_exists('user_is_login')) {
+
+    function user_is_login() {
         static $return = FALSE;
 
-        if ( !$return ){
-            $CI =& get_instance();
+        if (!$return) {
+            $CI = & get_instance();
 
-            if ( ($user = user_get_data() ) ) {
+            if (($user = user_get_data())) {
                 // hay que verificar que el usuario sigue teniendo una cuenta valida en la DB
                 $user_db = new Usuario_db();
                 $user_db->user_id = $user->user_id;
-                if ( $user_db->get() && $user_db->user_status == 'active' ) {
-                    
+                if ($user_db->get() && $user_db->user_status == 'active') {
+
                     // Actualizamos los datos del usuario
                     $CI->session->set_userdata('user', $user_db);
                     $return = TRUE;
@@ -59,7 +62,8 @@ if ( ! function_exists('user_is_login'))
         }
 
         return $return;
-	}
+    }
+
 }
 
 /**
@@ -75,11 +79,12 @@ function get_org_rol_levels() {
     );
 }
 
-function user_is_admin($user=NULL){
-    if ($user===NULL) $user = user_get_data ();
+function user_is_admin($user = NULL) {
+    if ($user === NULL)
+        $user = user_get_data();
 
     $org_levels = get_org_rol_levels();
-    if ( $org_levels[$user->user_org_rol] <= ADMIN_LEVEL ) {
+    if ($org_levels[$user->user_org_rol] <= ADMIN_LEVEL) {
         return TRUE;
     } else {
         return FALSE;
@@ -95,22 +100,21 @@ function user_is_admin($user=NULL){
 function currentuser_can($action, $object = NULL) {
     $current_user = user_get_data();
     $org_levels = get_org_rol_levels();
-    $CI =& get_instance();
+    $CI = & get_instance();
 
     switch ($action) {
         case 'cambiar_perfil':
             $user = $object;
-            if ( $user ) {
+            if ($user) {
                 // El usuario existe
 
-                if( $current_user->user_type == 'admin') {
+                if ($current_user->user_type == 'admin') {
                     // Administrador general del sistema... puede cambiar cualquier perfil
                     return TRUE;
-
                 } else if (
                         $current_user->user_org_id == $user->user_org_id
-                        && element ($current_user->user_org_rol, $org_levels, 100) <= element ($user->user_org_rol, $org_levels, 0)
-                        ) {
+                        && element($current_user->user_org_rol, $org_levels, 100) <= element($user->user_org_rol, $org_levels, 0)
+                ) {
                     // Tiene tantos, o mas, privilegios
                     return TRUE;
                 }
@@ -123,7 +127,7 @@ function currentuser_can($action, $object = NULL) {
             if (
                     $current_user->user_id != $user->user_id
                     && $current_user->user_org_id == $user->user_org_id
-                    && $org_levels[$current_user->user_org_rol] <= $org_levels[$user->user_org_rol] ) {
+                    && $org_levels[$current_user->user_org_rol] <= $org_levels[$user->user_org_rol]) {
                 return TRUE;
             }
             break;
@@ -131,25 +135,25 @@ function currentuser_can($action, $object = NULL) {
             $comunidad = $object;
             if (
                     $current_user->user_com_id == $comunidad->com_id
-                    && $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL ) {
+                    && $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL) {
                 return TRUE;
             }
             break;
         case 'crear_proy':
         case 'borrar_proy':
-            if ( $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL ) {
+            if ($org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL) {
                 return TRUE;
             }
             break;
         case 'proy_ver_datos':
             $proyecto = $object;
-            if ( $proyecto->proy_com_id == $current_user->user_com_id
+            if ($proyecto->proy_com_id == $current_user->user_com_id
                     && (
-                        $proyecto->proy_status == 'active'
-                        ||
-                        ( user_is_admin($current_user) && $proyecto->proy_org_id == $current_user->user_org_id )
+                    $proyecto->proy_status == 'active'
+                    ||
+                    ( user_is_admin($current_user) && $proyecto->proy_org_id == $current_user->user_org_id )
                     )
-                ) {
+            ) {
                 return TRUE;
             }
             break;
@@ -157,10 +161,10 @@ function currentuser_can($action, $object = NULL) {
             $proyecto = $object;
             // $cache_var = 'proy_modif_datos-'.$current_user->user_id.'-'.$proyecto->proy_id;
             /*
-            if ( ($return=$CI->cache->get($cache_var)) !== FALSE ){
-                return $return;
-            }
-            */
+              if ( ($return=$CI->cache->get($cache_var)) !== FALSE ){
+              return $return;
+              }
+             */
 
             $usuario_participa_db = new Usuario_participa_db();
             $usuario_participa_db->proy_id = $proyecto->proy_id;
@@ -170,11 +174,11 @@ function currentuser_can($action, $object = NULL) {
             if (
                     $proyecto->proy_org_id == $current_user->user_org_id
                     && (
-                            $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
-                            ||
-                            ($usuario_participa_db && $usuario_participa_db->p_modif_datos )
+                    $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
+                    ||
+                    ($usuario_participa_db && $usuario_participa_db->p_modif_datos )
                     )
-                ) {
+            ) {
                 // $CI->cache->save($cache_var, 1);
                 return TRUE;
             }
@@ -191,11 +195,11 @@ function currentuser_can($action, $object = NULL) {
             if (
                     $proyecto->proy_org_id == $current_user->user_org_id
                     && (
-                            $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
-                            ||
-                            ($usuario_participa_db && $usuario_participa_db->p_modif_histo )
+                    $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
+                    ||
+                    ($usuario_participa_db && $usuario_participa_db->p_modif_histo )
                     )
-                ) {
+            ) {
                 return TRUE;
             }
             break;
@@ -210,11 +214,11 @@ function currentuser_can($action, $object = NULL) {
             if (
                     $proyecto->proy_org_id == $current_user->user_org_id
                     && (
-                            $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
-                            ||
-                            ($usuario_participa_db && $usuario_participa_db->p_modif_activ )
+                    $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
+                    ||
+                    ($usuario_participa_db && $usuario_participa_db->p_modif_activ )
                     )
-                ) {
+            ) {
                 return TRUE;
             }
             break;
@@ -229,11 +233,11 @@ function currentuser_can($action, $object = NULL) {
             if (
                     $proyecto->proy_org_id == $current_user->user_org_id
                     && (
-                            $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
-                            ||
-                            ($usuario_participa_db && $usuario_participa_db->p_modif_inver )
+                    $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
+                    ||
+                    ($usuario_participa_db && $usuario_participa_db->p_modif_inver )
                     )
-                ) {
+            ) {
                 return TRUE;
             }
             break;
@@ -248,11 +252,11 @@ function currentuser_can($action, $object = NULL) {
             if (
                     $proyecto->proy_org_id == $current_user->user_org_id
                     && (
-                            $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
-                            ||
-                            ($usuario_participa_db && $usuario_participa_db->p_modif_repre )
+                    $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
+                    ||
+                    ($usuario_participa_db && $usuario_participa_db->p_modif_repre )
                     )
-                ) {
+            ) {
                 return TRUE;
             }
             break;
@@ -267,11 +271,101 @@ function currentuser_can($action, $object = NULL) {
             if (
                     $proyecto->proy_org_id == $current_user->user_org_id
                     && (
-                            $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
-                            ||
-                            ($usuario_participa_db && $usuario_participa_db->p_export)
+                    $org_levels[$current_user->user_org_rol] <= ADMIN_LEVEL
+                    ||
+                    ($usuario_participa_db && $usuario_participa_db->p_export)
                     )
-                ) {
+            ) {
+                return TRUE;
+            }
+            break;
+        case 'org_crear':
+            $organizacion = $object;
+
+            $usuario_miembro_organizacion_db = new Usuario_miembro_organizacion_db();
+            $usuario_miembro_organizacion_db->org_id = $organizacion->org_id;
+            $usuario_miembro_organizacion_db->user_id = $current_user->user_id;
+            $usuario_miembro_organizacion_db = $usuario_miembro_organizacion_db->get();
+
+
+            if ($usuario_miembro_organizacion_db && $usuario_miembro_organizacion_db->privilegio > 0) {
+
+                return TRUE;
+            }
+            break;
+        case 'org_aceptar':
+            $organizacion = $object;
+
+            $usuario_miembro_organizacion_db = new Usuario_miembro_organizacion_db();
+            $usuario_miembro_organizacion_db->org_id = $organizacion->org_id;
+            $usuario_miembro_organizacion_db->user_id = $current_user->user_id;
+            $usuario_miembro_organizacion_db = $usuario_miembro_organizacion_db->get();
+
+
+            if ($usuario_miembro_organizacion_db && ($usuario_miembro_organizacion_db->e_invitacion) == 1) {
+
+                return TRUE;
+            }
+            break;
+        case 'org_ver':
+            $organizacion = $object;
+
+            $usuario_miembro_organizacion_db = new Usuario_miembro_organizacion_db();
+            $usuario_miembro_organizacion_db->org_id = $organizacion->org_id;
+            $usuario_miembro_organizacion_db->user_id = $current_user->user_id;
+            $usuario_miembro_organizacion_db = $usuario_miembro_organizacion_db->get();
+
+
+            if ($usuario_miembro_organizacion_db && $usuario_miembro_organizacion_db->privilegio > 0 && $usuario_miembro_organizacion_db->e_invitacion > 1) {
+
+                return TRUE;
+            }
+            break;
+        case 'org_subir':
+            $organizacion = $object;
+
+            $usuario_miembro_organizacion_db = new Usuario_miembro_organizacion_db();
+            $usuario_miembro_organizacion_db->org_id = $organizacion->org_id;
+            $usuario_miembro_organizacion_db->user_id = $current_user->user_id;
+            $usuario_miembro_organizacion_db = $usuario_miembro_organizacion_db->get();
+
+            if ($usuario_miembro_organizacion_db && $usuario_miembro_organizacion_db->privilegio > 1 && $usuario_miembro_organizacion_db->e_invitacion > 1) {
+                return TRUE;
+            }
+            break;
+        case 'org_editar':
+            $organizacion = $object;
+
+            $usuario_miembro_organizacion_db = new Usuario_miembro_organizacion_db();
+            $usuario_miembro_organizacion_db->org_id = $organizacion->org_id;
+            $usuario_miembro_organizacion_db->user_id = $current_user->user_id;
+            $usuario_miembro_organizacion_db = $usuario_miembro_organizacion_db->get();
+
+            if ($usuario_miembro_organizacion_db && $usuario_miembro_organizacion_db->privilegio > 2 && $usuario_miembro_organizacion_db->e_invitacion > 1) {
+                return TRUE;
+            }
+            break;
+        case 'org_invitaciones':
+            $organizacion = $object;
+
+            $usuario_miembro_organizacion_db = new Usuario_miembro_organizacion_db();
+            $usuario_miembro_organizacion_db->org_id = $organizacion->org_id;
+            $usuario_miembro_organizacion_db->user_id = $current_user->user_id;
+            $usuario_miembro_organizacion_db = $usuario_miembro_organizacion_db->get();
+
+            if ($usuario_miembro_organizacion_db && $usuario_miembro_organizacion_db->privilegio > 3 && $usuario_miembro_organizacion_db->e_invitacion > 1) {
+                return TRUE;
+            }
+            break;
+        case 'org_eliminar':
+            $organizacion = $object;
+
+            $usuario_miembro_organizacion_db = new Usuario_miembro_organizacion_db();
+            $usuario_miembro_organizacion_db->org_id = $organizacion->org_id;
+            $usuario_miembro_organizacion_db->user_id = $current_user->user_id;
+            $usuario_miembro_organizacion_db = $usuario_miembro_organizacion_db->get();
+
+            if ($usuario_miembro_organizacion_db && $usuario_miembro_organizacion_db->privilegio > 4 && $usuario_miembro_organizacion_db->e_invitacion > 1) {
                 return TRUE;
             }
             break;
