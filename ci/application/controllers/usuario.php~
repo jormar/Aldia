@@ -52,7 +52,6 @@ class Usuario extends ALDIA_Controller {
                 $this->usuario_db->user_telf = set_value('user_telf');
                 $this->usuario_db->user_telf_alt = set_value('user_telf_alt');
                 $this->usuario_db->user_dir = set_value('user_dir');
-		$this->usuario_db->user_status = set_value('active');
 
                 $this->usuario_db->user_registrado = date('Y-m-d');
                 $this->usuario_db->user_com_id = SYSTEM_DEFAULT_COM;
